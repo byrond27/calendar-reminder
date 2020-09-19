@@ -6,8 +6,9 @@
 
 ### Install
 
-- Docker
-- Docker-compose
+- Makefile [link](https://www.gnu.org/software/make/manual/make.html)
+- Docker [link](https://www.docker.com/)
+- Docker-compose [link](https://docs.docker.com/compose/install/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
