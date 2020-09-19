@@ -10,7 +10,7 @@ services:
     container_name: react-app
     command: npm start
     volumes:
-      - .:/usr/app
-      - /usr/app/node_modules
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - 3000:3000
