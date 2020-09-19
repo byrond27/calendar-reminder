@@ -1,12 +1,13 @@
 # Calendar Reminder
 
+![CI - Master](https://github.com/byrond27/calendar-reminder/workflows/CI/badge.svg) ![CI - Develop](https://github.com/byrond27/calendar-reminder/workflows/CI/badge.svg?branch=develop)
+
 ## Requirements
 
 ### Install
-* Docker
-* Docker-compose
 
-
+- Docker
+- Docker-compose
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
