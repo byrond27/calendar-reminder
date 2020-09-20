@@ -15,7 +15,7 @@ const HeaderCalendar = styled.div`
   }
 `
 
-const headerDays = (props) => (
+const headerDays = () => (
   <Row>
     <Col>
       <HeaderCalendar>
