@@ -40,9 +40,11 @@ const FromWrapper = styled(Form)`
 const ReminderForm = (props) => {
   const { dispatch } = useContext(ReminderContext)
   const [name, setName] = useState('')
-  const [time, setTime] = useState('')
+  const [time, setTime] = useState(
+    moment().hour(0).minute(0).format('HH:mm:ss')
+  )
   const [city, setCity] = useState('')
-  const [color, setColor] = useState('')
+  const [color, setColor] = useState('#b3a2a2')
   const [date, setDate] = useState(props.currentDayReminder)
   const [edit, setEdit] = useState(false)
 
@@ -117,13 +119,13 @@ const ReminderForm = (props) => {
   }
 
   const timePicker = props.editReminder
-    ? moment(props.editReminder.time, 'HH:mm a')
+    ? moment(props.editReminder.time, 'HH:mm:ss')
     : moment().hour(0).minute(0)
 
   const handleSetColor = (colorPiker) => {
-    console.log()
     setColor(colorPiker.color)
   }
+
   return (
     <FromWrapper onSubmit={handleSubmit}>
       <FormGroup>
