@@ -5,7 +5,6 @@ import { Day } from '../Day'
 import moment from 'moment'
 import styled from 'styled-components'
 import { Container, Row, Col } from 'reactstrap'
-import Modal from 'react-modal'
 
 const DaysWrapper = styled.section`
   display: flex;
@@ -39,18 +38,11 @@ export function Month(props) {
     slug: previousMonthDate.replace('-', '/'),
   }
 
-  const [modalIsOpen, setIsOpen] = React.useState(false)
+  const [setIsOpen] = React.useState(false)
   const openModal = () => {
     setIsOpen(true)
   }
 
-  const afterOpenModal = () => {
-    // references are now sync'd and can be accessed.
-  }
-
-  const closeModal = () => {
-    setIsOpen(false)
-  }
   const days = []
 
   for (let i = 1; i <= currentMonth.days; i++) {

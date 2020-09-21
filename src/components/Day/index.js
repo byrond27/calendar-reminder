@@ -29,7 +29,8 @@ const DayWrapper = styled.div`
   position: relative;
   flex: 1 0 14.28%;
   max-width: calc(100% / 7);
-  min-height: 150px;
+  height: 150px;
+  overflow-y: auto;
   border: 1px solid black;
 
   ${createSpaceFirstDay()};
@@ -69,8 +70,6 @@ const customStyles = {
 
 Modal.setAppElement('#root')
 
-const defaultColor = '#000'
-
 export function Day(props) {
   const [modalIsOpen, setIsOpen] = React.useState(false)
   function openModal() {
@@ -84,11 +83,12 @@ export function Day(props) {
   function closeModal() {
     setIsOpen(false)
   }
+
+  let styleDays = []
   let firstDayMonth =
     props.day === 1
       ? `position-first-day-${moment(props.date).startOf('month').format('d')}`
       : ''
-
   let currentDay =
     moment().format('YYYY-MM-DD') === props.date ? 'current-day' : ''
 
@@ -98,18 +98,18 @@ export function Day(props) {
       ? 'weekend-day'
       : 'weekday'
 
+  styleDays.push(firstDayMonth, currentDay, WeekendDay)
+
   const { reminders, dispatch } = useContext(ReminderContext)
-  console.log(reminders)
-  console.log(props)
 
   const reminderByDay = reminders.filter(
     (reminder) => reminder.date === props.date
   )
 
-  console.log('reminderByDay', reminderByDay)
+  const orderReminderByTime = _sortBy(reminderByDay, 'time')
 
   return (
-    <DayWrapper className={firstDayMonth + ' ' + currentDay + ' ' + WeekendDay}>
+    <DayWrapper className={styleDays.toString().replaceAll(',', ' ')}>
       <div className='d-flex header-day'>
         <div className='flex-grow-1 align-self-center day-number'>
           {props.day}
@@ -128,22 +128,18 @@ export function Day(props) {
             }>
             <i className='fas fa-trash' />
           </Button>
-        ) : (
-          ''
-        )}
-
+        ) : null}
         <Button outline color='primary' size='sm' onClick={openModal}>
           <i className='fas fa-plus' />
         </Button>
       </div>
-      {reminderByDay.length > 0 ? (
-        reminderByDay.map((reminder) => (
+      {orderReminderByTime.length > 0 ? (
+        orderReminderByTime.map((reminder) => (
           <Reminder key={reminder.id} reminder={reminder} />
         ))
       ) : (
         <div className='d-flex justify-content-center'>No reminders</div>
       )}
-
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}

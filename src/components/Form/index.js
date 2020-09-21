@@ -1,17 +1,10 @@
 import React, { useContext, useState } from 'react'
-import moment from 'moment'
-import TimePicker from 'rc-time-picker'
-import { SketchPicker } from 'react-color'
-import 'rc-time-picker/assets/index.css'
+
 import { ReminderContext } from '../../ReminderContext'
 
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
 const ReminderForm = (props) => {
-  // const time = props.reminder.time
-  //   ? moment(props.reminder.time, 'HH:mm a')
-  //   : moment().hour(0).minute(0)
-
   const { dispatch } = useContext(ReminderContext)
   const [name, setName] = useState('')
   const [time, setTime] = useState('')
@@ -41,9 +34,10 @@ const ReminderForm = (props) => {
           id='name'
           type='text'
           placeholder='Reminder'
-          max-length='30'
           defaultValue={name}
+          maxLength='30'
           onChange={(e) => setName(e.target.value)}
+          required
         />
       </FormGroup>
 
@@ -53,20 +47,10 @@ const ReminderForm = (props) => {
           id='time'
           type='text'
           placeholder='Time'
-          max-length='30'
           defaultValue={time}
           onChange={(e) => setTime(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for='color'>Color</Label>
-        <Input
-          id='color'
-          type='text'
-          placeholder='Color'
-          max-length='30'
-          defaultValue={color}
-          onChange={(e) => setColor(e.target.value)}
+          autoComplete='off'
+          required
         />
       </FormGroup>
       <FormGroup>
@@ -75,14 +59,24 @@ const ReminderForm = (props) => {
           id='city'
           type='text'
           placeholder='City'
-          max-length='30'
           defaultValue={city}
           onChange={(e) => setCity(e.target.value)}
+          required
         />
       </FormGroup>
-      <FormGroup className='text-center'>
-        <Button color='danger'>Cancel</Button>
-        <Button color='success'>Submit</Button>
+      <FormGroup>
+        <Label for='color'>Color</Label>
+        <Input
+          id='color'
+          type='text'
+          placeholder='Color'
+          defaultValue={color}
+          onChange={(e) => setColor(e.target.value)}
+          required
+        />
+      </FormGroup>
+      <FormGroup className='text-right'>
+        <Button color='success'>Save</Button>
       </FormGroup>
     </Form>
   )
