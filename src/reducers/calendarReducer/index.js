@@ -11,6 +11,7 @@ export const calendarReducer = (state, action) => {
       ]
 
     case 'ADD_REMINDER':
+      console.log(action.reminder)
       return [
         ...state,
         {
@@ -19,7 +20,7 @@ export const calendarReducer = (state, action) => {
           time: action.reminder.time,
           city: action.reminder.city,
           color: action.reminder.color,
-          date: action.reminder.currentDateReminder,
+          date: action.reminder.date,
           weather: action.reminder.weather,
         },
       ]

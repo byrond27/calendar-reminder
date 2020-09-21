@@ -10,7 +10,7 @@ const ReminderForm = (props) => {
   const [time, setTime] = useState('')
   const [city, setCity] = useState('')
   const [color, setColor] = useState('')
-  const [day, setDay] = useState('')
+  const [date, setDate] = useState(props.currentDayReminder)
   const [currentDateReminder] = useState(props.currentDayReminder)
   const [edit, setEdit] = useState(false)
 
@@ -42,13 +42,14 @@ const ReminderForm = (props) => {
 
     dispatch({
       type: 'ADD_REMINDER',
-      reminder: { name, time, city, weather, color, currentDateReminder },
+      reminder: { name, time, city, weather, color, date },
     })
 
     setName('')
     setTime('')
     setCity('')
     setColor('')
+    setDate('')
   }
 
   return (
@@ -73,12 +74,26 @@ const ReminderForm = (props) => {
             type='text'
             placeholder='Day'
             defaultValue={props.editReminder.date}
-            onChange={(e) => setDay(e.target.value)}
+            onChange={(e) => setDate(e.target.value)}
             autoComplete='off'
             required
           />
         </FormGroup>
-      ) : null}
+      ) : (
+        <FormGroup>
+          <Label for='day'>Day</Label>
+          <Input
+            id='day'
+            type='text'
+            placeholder='Day'
+            defaultValue={date}
+            onChange={(e) => setDate(e.target.value)}
+            autoComplete='off'
+            required
+            disabled
+          />
+        </FormGroup>
+      )}
       <FormGroup>
         <Label for='time'>Time</Label>
         <Input
@@ -126,7 +141,7 @@ const ReminderForm = (props) => {
                   city,
                   color,
                   id: props.editReminder.id,
-                  date: day,
+                  date,
                 },
               })
             }}>
