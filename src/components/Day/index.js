@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import _sortBy from 'lodash/sortBy'
 import styled, { css } from 'styled-components'
 import { Button } from 'reactstrap'
 import moment from 'moment'
+import Reminder from '../Reminder'
+import ReminderForm from '../Form'
+import Modal from 'react-modal'
+
+import { ReminderContext } from '../../ReminderContext'
 
 function createSpaceFirstDay() {
   let styles = ''
@@ -51,107 +56,102 @@ const DayWrapper = styled.div`
   }
 `
 
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+}
+
+Modal.setAppElement('#root')
+
 const defaultColor = '#000'
 
-export default class Day extends React.Component {
-  state = {
-    editReminder: {
-      id: null,
-      time: null,
-      description: null,
-      color: defaultColor,
-    },
+export function Day(props) {
+  const [modalIsOpen, setIsOpen] = React.useState(false)
+  function openModal() {
+    setIsOpen(true)
   }
 
-  handleSetColor = (data) => {
-    this.setState({
-      editReminder: {
-        ...this.state.editReminder,
-        color: data.color,
-      },
-    })
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
   }
 
-  handleSetEdit = (reminder) => {
-    this.props.handleSetEditDay(this.props.day)
-
-    this.setState({
-      editReminder: {
-        ...this.state.editReminder,
-        ...reminder,
-      },
-    })
+  function closeModal() {
+    setIsOpen(false)
   }
+  let firstDayMonth =
+    props.day === 1
+      ? `position-first-day-${moment(props.date).startOf('month').format('d')}`
+      : ''
 
-  handleCreateUpdateReminder = (e, update) => {
-    console.log('hola')
-    e.preventDefault()
+  let currentDay =
+    moment().format('YYYY-MM-DD') === props.date ? 'current-day' : ''
 
-    const form = e.target
-    const description = form.querySelector('.description').value.trim()
+  let WeekendDay =
+    moment(props.date).format('dddd') === 'Sunday' ||
+    moment(props.date).format('dddd') === 'Saturday'
+      ? 'weekend-day'
+      : 'weekday'
 
-    if (description.length) {
-      const payload = {
-        date: this.props.date,
-        time: form.querySelector('.rc-time-picker-input').value,
-        description: description,
-        color: this.state.editReminder.color || defaultColor,
-      }
+  const { reminders, dispatch } = useContext(ReminderContext)
+  console.log(reminders)
+  console.log(props)
 
-      if (update.id) {
-        payload['id'] = update.id
-        this.props.updateReminder(payload)
-      } else {
-        this.props.createReminder(payload)
-      }
+  const reminderByDay = reminders.filter(
+    (reminder) => reminder.date === props.date
+  )
 
-      this.props.handleSetEditDay(null)
-      this.setState({ editReminder: {} })
-    }
-  }
+  console.log('reminderByDay', reminderByDay)
 
-  handleDeleteReminder = (id) => {
-    this.props.deleteReminder(this.props.date, id)
-  }
-
-  render() {
-    const reminders = []
-    let firstDayMonth =
-      this.props.day === 1
-        ? `position-first-day-${moment(this.props.date)
-            .startOf('month')
-            .format('d')}`
-        : ''
-
-    let currentDay =
-      moment().format('YYYY-MM-DD') === this.props.date ? 'current-day' : ''
-
-    let WeekendDay =
-      moment(this.props.date).format('dddd') === 'Sunday' ||
-      moment(this.props.date).format('dddd') === 'Saturday'
-        ? 'weekend-day'
-        : 'weekday'
-
-    return (
-      <DayWrapper
-        className={firstDayMonth + ' ' + currentDay + ' ' + WeekendDay}>
-        {!this.props.editDay && (
-          <div
-            className='d-flex header-day'
-            onClick={() => this.props.handleSetEditDay(this.props.day)}>
-            <div className='flex-grow-1 align-self-center day-number'>
-              {this.props.day}
-            </div>
-            <Button outline color='danger' size='sm' className='mr-1'>
-              <i className='fas fa-trash' />
-            </Button>
-            <Button outline color='primary' size='sm'>
-              <i className='fas fa-plus' />
-            </Button>
-          </div>
+  return (
+    <DayWrapper className={firstDayMonth + ' ' + currentDay + ' ' + WeekendDay}>
+      <div className='d-flex header-day'>
+        <div className='flex-grow-1 align-self-center day-number'>
+          {props.day}
+        </div>
+        {reminderByDay.length > 0 ? (
+          <Button
+            outline
+            color='danger'
+            size='sm'
+            className='mr-1'
+            onClick={() =>
+              dispatch({
+                type: 'REMOVE_ALL_DAY_REMINDER',
+                date: props.date,
+              })
+            }>
+            <i className='fas fa-trash' />
+          </Button>
+        ) : (
+          ''
         )}
+
+        <Button outline color='primary' size='sm' onClick={openModal}>
+          <i className='fas fa-plus' />
+        </Button>
+      </div>
+      {reminderByDay.length > 0 ? (
+        reminderByDay.map((reminder) => (
+          <Reminder key={reminder.id} reminder={reminder} />
+        ))
+      ) : (
         <div className='d-flex justify-content-center'>No reminders</div>
-      </DayWrapper>
-    )
-  }
+      )}
+
+      <Modal
+        isOpen={modalIsOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel='Example Modal'>
+        <ReminderForm currentDayReminder={props.date} />
+      </Modal>
+    </DayWrapper>
+  )
 }

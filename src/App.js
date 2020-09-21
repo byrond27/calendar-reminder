@@ -1,19 +1,13 @@
 import React from 'react'
 import './App.css'
-import { CalendarContextProvider } from './CalendarContext'
+import ReminderContextProvider from './ReminderContext'
 import { Route, Switch, HashRouter } from 'react-router-dom'
 import { CalendarHome } from './layout/CalendarHome'
-import Month from './components/Month'
-
-const sampleAppContext = {
-  name: 'Using React Context in a Typescript App',
-  author: 'thehappybug',
-  url: 'http://www.example.com',
-}
+import { Month } from './components/Month'
 
 function App() {
   return (
-    <CalendarContextProvider value={sampleAppContext}>
+    <ReminderContextProvider>
       <HashRouter>
         <CalendarHome>
           <Switch>
@@ -22,7 +16,7 @@ function App() {
           </Switch>
         </CalendarHome>
       </HashRouter>
-    </CalendarContextProvider>
+    </ReminderContextProvider>
   )
 }
 
