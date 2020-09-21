@@ -32,6 +32,7 @@ function Reminder(props) {
   }
 
   const { dispatch } = useContext(ReminderContext)
+  console.log(props)
   return (
     <ReminderWrapper
       className='d-flex flex-wrap p-1'
@@ -41,7 +42,7 @@ function Reminder(props) {
       </div>
       <div className='d-flex w-100 align-items-center'>
         <div className='mr-auto w-50 text-truncate'>{props.reminder.city}</div>
-        <div className='text-truncate'>clima</div>
+        <div className='text-truncate'>{props.reminder.weather}</div>
       </div>
       <div className='d-flex w-100 align-items-center'>
         <div className='mr-auto'>{props.reminder.time}</div>

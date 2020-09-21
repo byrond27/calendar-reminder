@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-
+import axios from 'axios'
 import { ReminderContext } from '../../ReminderContext'
 
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
@@ -9,20 +9,33 @@ const ReminderForm = (props) => {
   const [name, setName] = useState('')
   const [time, setTime] = useState('')
   const [city, setCity] = useState('')
-  const [weather, setWeather] = useState('')
   const [color, setColor] = useState('')
   const [currentDateReminder] = useState(props.currentDayReminder)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    const weather = await axios
+      .get('https://api.openweathermap.org/data/2.5/weather?', {
+        params: {
+          q: city,
+          appid: process.env.REACT_APP_OPEN_WEATHER_API_KEY,
+        },
+      })
+      .then(function (res) {
+        return res.data.weather[0].main
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    console.log(weather)
     dispatch({
       type: 'ADD_REMINDER',
       reminder: { name, time, city, weather, color, currentDateReminder },
     })
+
     setName('')
     setTime('')
     setCity('')
-    setWeather('')
     setColor('')
   }
 
@@ -40,7 +53,6 @@ const ReminderForm = (props) => {
           required
         />
       </FormGroup>
-
       <FormGroup>
         <Label for='time'>Time</Label>
         <Input
