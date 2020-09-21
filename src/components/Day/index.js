@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import _sortBy from 'lodash/sortBy'
 import styled, { css } from 'styled-components'
 import { Button } from 'reactstrap'
@@ -6,7 +6,6 @@ import moment from 'moment'
 import Reminder from '../Reminder'
 import ReminderForm from '../Form'
 import Modal from 'react-modal'
-
 import { ReminderContext } from '../../ReminderContext'
 
 function createSpaceFirstDay() {
@@ -34,7 +33,11 @@ const DayWrapper = styled.div`
   border: 1px solid black;
 
   ${createSpaceFirstDay()};
-
+  .reminder-number {
+    font-size: 12px;
+    color: gray;
+    padding-left: 5px;
+  }
   .header-day {
     padding: 10px;
     border-bottom: 1px solid black;
@@ -52,9 +55,6 @@ const DayWrapper = styled.div`
       color: #2a9df4;
     }
   }
-
-  &.weekday {
-  }
 `
 
 const customStyles = {
@@ -65,14 +65,13 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    width: '350px'
+    width: '350px',
   },
 }
 
-Modal.setAppElement('#root')
-
 export function Day(props) {
   const [modalIsOpen, setIsOpen] = React.useState(false)
+
   function openModal() {
     setIsOpen(true)
   }
@@ -114,6 +113,9 @@ export function Day(props) {
       <div className='d-flex header-day'>
         <div className='flex-grow-1 align-self-center day-number'>
           {props.day}
+          {reminderByDay.length > 0 ? (
+            <span className='reminder-number'>{reminderByDay.length}</span>
+          ) : null}
         </div>
         {reminderByDay.length > 0 ? (
           <Button
@@ -147,7 +149,10 @@ export function Day(props) {
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel='Example Modal'>
-        <ReminderForm currentDayReminder={props.date} />
+        <ReminderForm
+          currentDayReminder={props.date}
+          closeModalClick={closeModal}
+        />
       </Modal>
     </DayWrapper>
   )

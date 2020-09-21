@@ -2,16 +2,7 @@ import uuid from 'uuid/v4'
 
 export const calendarReducer = (state, action) => {
   switch (action.type) {
-    case 'CHARGE_CURRENT_MONTH':
-      return [
-        ...state,
-        {
-          currentMonth: action.currentMonth.date,
-        },
-      ]
-
     case 'ADD_REMINDER':
-      console.log(action.reminder)
       return [
         ...state,
         {

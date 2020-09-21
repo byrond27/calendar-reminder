@@ -67,7 +67,7 @@ const ReminderForm = (props) => {
       type: 'ADD_REMINDER',
       reminder: { name, time, city, weather, color, date },
     })
-
+    props.closeModalClick()
     setName('')
     setTime('')
     setCity('')
@@ -89,7 +89,6 @@ const ReminderForm = (props) => {
       .catch(function (error) {
         console.log(error)
       })
-    console.log(weatherResponse)
     return weatherResponse
   }
 
@@ -115,7 +114,7 @@ const ReminderForm = (props) => {
   }
 
   const onChangeTime = (time) => {
-    setTime(time.format('h:mm:ss'))
+    setTime(time.format('HH:mm:ss'))
   }
 
   const timePicker = props.editReminder
@@ -153,7 +152,7 @@ const ReminderForm = (props) => {
         <TimePicker
           showSecond={true}
           defaultValue={timePicker}
-          format='h:mm:ss'
+          format='HH:mm:ss'
           use24Hours
           inputReadOnly
           onChange={onChangeTime}
@@ -183,6 +182,9 @@ const ReminderForm = (props) => {
         />
       </FormGroup>
       <FormGroup className='text-right'>
+        <Button color='danger' className='mr-2' onClick={props.closeModalClick}>
+          Cancel
+        </Button>
         {edit ? (
           <Button color='primary' onClick={editReminderHandler}>
             Edit
