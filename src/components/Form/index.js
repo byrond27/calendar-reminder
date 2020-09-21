@@ -1,8 +1,33 @@
 import React, { useContext, useState, useEffect } from 'react'
 import axios from 'axios'
 import { ReminderContext } from '../../ReminderContext'
-
+import DayPickerInput from 'react-day-picker/DayPickerInput'
+import 'react-day-picker/lib/style.css'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import moment from 'moment'
+import styled from 'styled-components'
+
+const FromWrapper = styled(Form)`
+  .DayPickerInput {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    input {
+      border: 0;
+      width: 100%;
+    }
+  }
+`
 
 const ReminderForm = (props) => {
   const { dispatch } = useContext(ReminderContext)
@@ -75,8 +100,13 @@ const ReminderForm = (props) => {
     })
   }
 
+  const setDatePicker = (day) => {
+    console.log(moment(day).format('YYYY-MM-DD'))
+    setDate(moment(day).format('YYYY-MM-DD'))
+  }
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <FromWrapper onSubmit={handleSubmit}>
       <FormGroup>
         <Label for='name'>Reminder</Label>
         <Input
@@ -91,15 +121,10 @@ const ReminderForm = (props) => {
       </FormGroup>
       <FormGroup>
         <Label for='day'>Day</Label>
-        <Input
-          id='day'
-          type='text'
-          placeholder='Day'
-          defaultValue={date}
-          onChange={(e) => setDate(e.target.value)}
-          autoComplete='off'
-          required
-          disabled={!edit}
+        <DayPickerInput
+          value={date}
+          placeholder='YYYY-MM-DD'
+          onDayChange={setDatePicker}
         />
       </FormGroup>
       <FormGroup>
@@ -145,7 +170,7 @@ const ReminderForm = (props) => {
           <Button color='success'>Save</Button>
         )}
       </FormGroup>
-    </Form>
+    </FromWrapper>
   )
 }
 

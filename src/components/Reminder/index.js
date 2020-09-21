@@ -8,7 +8,9 @@ const OptionButton = styled.div`
   cursor: pointer;
 `
 const ReminderWrapper = styled.div`
-  border-bottom: 1px dashed;
+  margin: 5px;
+  border-radius: 15px;
+  border: 1px solid;
 `
 
 const customStyles = {
@@ -19,6 +21,7 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
+    width: '350px',
   },
 }
 function Reminder(props) {
