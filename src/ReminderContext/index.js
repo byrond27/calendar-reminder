@@ -8,12 +8,11 @@ const ReminderContextProvider = (props) => {
     const currentMonth = []
     return currentMonth
   })
-  useEffect(() => {
-  }, [])
-
+  useEffect(() => {}, [])
   return (
     <ReminderContext.Provider value={{ reminders, dispatch }}>
       {props.children}
+      {/* <Modal ></Modal> validate modal and show */}
     </ReminderContext.Provider>
   )
 }

@@ -32,7 +32,6 @@ function Reminder(props) {
   }
 
   const { dispatch } = useContext(ReminderContext)
-  console.log(props)
   return (
     <ReminderWrapper
       className='d-flex flex-wrap p-1'
@@ -61,7 +60,10 @@ function Reminder(props) {
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel='Example Modal'>
-        <ReminderForm currentDayReminder={props.date} />
+        <ReminderForm
+          currentDayReminder={props.date}
+          editReminder={props.reminder}
+        />
       </Modal>
     </ReminderWrapper>
   )

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import axios from 'axios'
 import { ReminderContext } from '../../ReminderContext'
 
@@ -10,7 +10,19 @@ const ReminderForm = (props) => {
   const [time, setTime] = useState('')
   const [city, setCity] = useState('')
   const [color, setColor] = useState('')
+  const [day, setDay] = useState('')
   const [currentDateReminder] = useState(props.currentDayReminder)
+  const [edit, setEdit] = useState(false)
+
+  useEffect(() => {
+    if (props.editReminder !== undefined) {
+      setName(props.editReminder.name)
+      setTime(props.editReminder.time)
+      setCity(props.editReminder.city)
+      setColor(props.editReminder.color)
+      setEdit(true)
+    }
+  }, [props.editReminder])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -27,7 +39,7 @@ const ReminderForm = (props) => {
       .catch(function (error) {
         console.log(error)
       })
-    console.log(weather)
+
     dispatch({
       type: 'ADD_REMINDER',
       reminder: { name, time, city, weather, color, currentDateReminder },
@@ -53,6 +65,20 @@ const ReminderForm = (props) => {
           required
         />
       </FormGroup>
+      {edit ? (
+        <FormGroup>
+          <Label for='day'>Day</Label>
+          <Input
+            id='day'
+            type='text'
+            placeholder='Day'
+            defaultValue={props.editReminder.date}
+            onChange={(e) => setDay(e.target.value)}
+            autoComplete='off'
+            required
+          />
+        </FormGroup>
+      ) : null}
       <FormGroup>
         <Label for='time'>Time</Label>
         <Input
@@ -88,7 +114,27 @@ const ReminderForm = (props) => {
         />
       </FormGroup>
       <FormGroup className='text-right'>
-        <Button color='success'>Save</Button>
+        {edit ? (
+          <Button
+            color='primary'
+            onClick={() => {
+              dispatch({
+                type: 'EDIT_REMINDER',
+                reminder: {
+                  name,
+                  time,
+                  city,
+                  color,
+                  id: props.editReminder.id,
+                  date: day,
+                },
+              })
+            }}>
+            Edit
+          </Button>
+        ) : (
+          <Button color='success'>Save</Button>
+        )}
       </FormGroup>
     </Form>
   )
