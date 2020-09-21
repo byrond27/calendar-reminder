@@ -11,7 +11,6 @@ const ReminderForm = (props) => {
   const [city, setCity] = useState('')
   const [color, setColor] = useState('')
   const [date, setDate] = useState(props.currentDayReminder)
-  const [currentDateReminder] = useState(props.currentDayReminder)
   const [edit, setEdit] = useState(false)
 
   useEffect(() => {
@@ -20,13 +19,29 @@ const ReminderForm = (props) => {
       setTime(props.editReminder.time)
       setCity(props.editReminder.city)
       setColor(props.editReminder.color)
+      setDate(props.editReminder.date)
       setEdit(true)
     }
   }, [props.editReminder])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const weather = await axios
+
+    const weather = await getWeather()
+    dispatch({
+      type: 'ADD_REMINDER',
+      reminder: { name, time, city, weather, color, date },
+    })
+
+    setName('')
+    setTime('')
+    setCity('')
+    setColor('')
+    setDate('')
+  }
+
+  const getWeather = async () => {
+    let weatherResponse = await axios
       .get('https://api.openweathermap.org/data/2.5/weather?', {
         params: {
           q: city,
@@ -39,17 +54,25 @@ const ReminderForm = (props) => {
       .catch(function (error) {
         console.log(error)
       })
+    console.log(weatherResponse)
+    return weatherResponse
+  }
+
+  const editReminderHandler = async () => {
+    const weather = await getWeather()
 
     dispatch({
-      type: 'ADD_REMINDER',
-      reminder: { name, time, city, weather, color, date },
+      type: 'EDIT_REMINDER',
+      reminder: {
+        name,
+        time,
+        city,
+        color,
+        id: props.editReminder.id,
+        date,
+        weather,
+      },
     })
-
-    setName('')
-    setTime('')
-    setCity('')
-    setColor('')
-    setDate('')
   }
 
   return (
@@ -66,34 +89,19 @@ const ReminderForm = (props) => {
           required
         />
       </FormGroup>
-      {edit ? (
-        <FormGroup>
-          <Label for='day'>Day</Label>
-          <Input
-            id='day'
-            type='text'
-            placeholder='Day'
-            defaultValue={props.editReminder.date}
-            onChange={(e) => setDate(e.target.value)}
-            autoComplete='off'
-            required
-          />
-        </FormGroup>
-      ) : (
-        <FormGroup>
-          <Label for='day'>Day</Label>
-          <Input
-            id='day'
-            type='text'
-            placeholder='Day'
-            defaultValue={date}
-            onChange={(e) => setDate(e.target.value)}
-            autoComplete='off'
-            required
-            disabled
-          />
-        </FormGroup>
-      )}
+      <FormGroup>
+        <Label for='day'>Day</Label>
+        <Input
+          id='day'
+          type='text'
+          placeholder='Day'
+          defaultValue={date}
+          onChange={(e) => setDate(e.target.value)}
+          autoComplete='off'
+          required
+          disabled={!edit}
+        />
+      </FormGroup>
       <FormGroup>
         <Label for='time'>Time</Label>
         <Input
@@ -130,21 +138,7 @@ const ReminderForm = (props) => {
       </FormGroup>
       <FormGroup className='text-right'>
         {edit ? (
-          <Button
-            color='primary'
-            onClick={() => {
-              dispatch({
-                type: 'EDIT_REMINDER',
-                reminder: {
-                  name,
-                  time,
-                  city,
-                  color,
-                  id: props.editReminder.id,
-                  date,
-                },
-              })
-            }}>
+          <Button color='primary' onClick={editReminderHandler}>
             Edit
           </Button>
         ) : (
