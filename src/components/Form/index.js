@@ -6,9 +6,12 @@ import 'react-day-picker/lib/style.css'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import moment from 'moment'
 import styled from 'styled-components'
+import TimePicker from 'rc-time-picker'
+import 'rc-time-picker/assets/index.css'
 
 const FromWrapper = styled(Form)`
-  .DayPickerInput {
+  .DayPickerInput,
+  .rc-time-picker {
     display: block;
     width: 100%;
     height: calc(1.5em + 0.75rem + 2px);
@@ -25,6 +28,9 @@ const FromWrapper = styled(Form)`
     input {
       border: 0;
       width: 100%;
+    }
+    .rc-time-picker-clear {
+      top: 7px;
     }
   }
 `
@@ -105,6 +111,14 @@ const ReminderForm = (props) => {
     setDate(moment(day).format('YYYY-MM-DD'))
   }
 
+  const onChangeTime = (time) => {
+    setTime(time.format('h:mm:ss'))
+  }
+
+  const timePicker = props.editReminder
+    ? moment(props.editReminder.time, 'HH:mm a')
+    : moment().hour(0).minute(0)
+
   return (
     <FromWrapper onSubmit={handleSubmit}>
       <FormGroup>
@@ -129,14 +143,13 @@ const ReminderForm = (props) => {
       </FormGroup>
       <FormGroup>
         <Label for='time'>Time</Label>
-        <Input
-          id='time'
-          type='text'
-          placeholder='Time'
-          defaultValue={time}
-          onChange={(e) => setTime(e.target.value)}
-          autoComplete='off'
-          required
+        <TimePicker
+          showSecond={true}
+          defaultValue={timePicker}
+          format='h:mm:ss'
+          use24Hours
+          inputReadOnly
+          onChange={(e) => onChangeTime(e)}
         />
       </FormGroup>
       <FormGroup>
