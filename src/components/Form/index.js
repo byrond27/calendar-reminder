@@ -8,6 +8,8 @@ import moment from 'moment'
 import styled from 'styled-components'
 import TimePicker from 'rc-time-picker'
 import 'rc-time-picker/assets/index.css'
+import ColorPicker from 'rc-color-picker'
+import 'rc-color-picker/assets/index.css'
 
 const FromWrapper = styled(Form)`
   .DayPickerInput,
@@ -107,7 +109,6 @@ const ReminderForm = (props) => {
   }
 
   const setDatePicker = (day) => {
-    console.log(moment(day).format('YYYY-MM-DD'))
     setDate(moment(day).format('YYYY-MM-DD'))
   }
 
@@ -119,6 +120,10 @@ const ReminderForm = (props) => {
     ? moment(props.editReminder.time, 'HH:mm a')
     : moment().hour(0).minute(0)
 
+  const handleSetColor = (colorPiker) => {
+    console.log()
+    setColor(colorPiker.color)
+  }
   return (
     <FromWrapper onSubmit={handleSubmit}>
       <FormGroup>
@@ -149,7 +154,7 @@ const ReminderForm = (props) => {
           format='h:mm:ss'
           use24Hours
           inputReadOnly
-          onChange={(e) => onChangeTime(e)}
+          onChange={onChangeTime}
         />
       </FormGroup>
       <FormGroup>
@@ -163,15 +168,16 @@ const ReminderForm = (props) => {
           required
         />
       </FormGroup>
-      <FormGroup>
-        <Label for='color'>Color</Label>
-        <Input
-          id='color'
-          type='text'
-          placeholder='Color'
-          defaultValue={color}
-          onChange={(e) => setColor(e.target.value)}
-          required
+      <FormGroup className='d-flex align-items-center'>
+        <Label for='color' className='mr-auto'>
+          Color
+        </Label>
+        <ColorPicker
+          className='color-picker'
+          animation='slide-up'
+          color={color}
+          placement='bottomLeft'
+          onChange={handleSetColor}
         />
       </FormGroup>
       <FormGroup className='text-right'>
