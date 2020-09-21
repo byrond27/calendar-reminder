@@ -107,6 +107,7 @@ const ReminderForm = (props) => {
         weather,
       },
     })
+    props.closeModalClick()
   }
 
   const setDatePicker = (day) => {

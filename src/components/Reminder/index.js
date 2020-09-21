@@ -65,7 +65,7 @@ function Reminder(props) {
         contentLabel='Example Modal'>
         <ReminderForm
           currentDayReminder={props.date}
-          editReminder={props.reminder}
+          editReminder={props.reminder          closeModalClick={closeModal}
         />
       </Modal>
     </ReminderWrapper>
