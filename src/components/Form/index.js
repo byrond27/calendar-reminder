@@ -84,10 +84,11 @@ const ReminderForm = (props) => {
         },
       })
       .then(function (res) {
-        return res.data.weather[0].main
+        return res.data.weather[0].description
       })
       .catch(function (error) {
         console.log(error)
+        return 'No info'
       })
     return weatherResponse
   }

@@ -4,7 +4,7 @@ import HeaderDays from '../HeaderDays'
 import { Day } from '../Day'
 import moment from 'moment'
 import styled from 'styled-components'
-import { Container, Row, Col } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
 
 const DaysWrapper = styled.section`
   display: flex;
@@ -57,18 +57,16 @@ export function Month(props) {
   }
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <Header
-            currentMonth={currentMonth}
-            nextMonth={nextMonth}
-            prevMonth={previousMonth}
-          />
-          <HeaderDays />
-          <DaysWrapper>{days}</DaysWrapper>
-        </Col>
-      </Row>
-    </Container>
+    <Row>
+      <Col>
+        <Header
+          currentMonth={currentMonth}
+          nextMonth={nextMonth}
+          prevMonth={previousMonth}
+        />
+        <HeaderDays />
+        <DaysWrapper>{days}</DaysWrapper>
+      </Col>
+    </Row>
   )
 }

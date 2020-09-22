@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import _sortBy from 'lodash/sortBy'
 import styled, { css } from 'styled-components'
 import { Button } from 'reactstrap'
