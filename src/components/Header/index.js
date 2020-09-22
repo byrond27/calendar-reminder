@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Row, Col } from 'reactstrap'
 
 const header = (props) => (
-  <Row>
+  <Row className='user-select-none'>
     <Col className='d-flex justify-content-center align-items-center'>
       <Link to={'/' + props.prevMonth.slug}>
         <i className='fas fa-arrow-left' />

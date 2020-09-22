@@ -102,7 +102,7 @@ export function Day(props) {
   return (
     <DayWrapper className={styleDays.toString().replaceAll(',', ' ')}>
       <div className='d-flex header-day'>
-        <div className='flex-grow-1 align-self-center day-number'>
+        <div className='flex-grow-1 align-self-center day-number user-select-none'>
           {props.day}
           {RemindersOrderByTime.length > 0 ? (
             <span className='reminder-number'>
@@ -140,13 +140,14 @@ export function Day(props) {
           <Reminder key={reminder.id} reminder={reminder} />
         ))
       ) : (
-        <div className='d-flex justify-content-center'>No reminders</div>
+        <div className='d-flex justify-content-center user-select-none'>
+          No reminders
+        </div>
       )}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel='Example Modal'>
+        style={customStyles}>
         <ReminderForm
           currentDayReminder={props.date}
           closeModalClick={closeModal}

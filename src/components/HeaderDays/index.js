@@ -16,7 +16,7 @@ const HeaderCalendar = styled.div`
 `
 
 const headerDays = () => (
-  <Row>
+  <Row className='user-select-none'>
     <Col>
       <HeaderCalendar>
         {moment.weekdays().map((day, i) => (

@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useEffect } from 'react'
 import { reminderReducer } from '../../reducers/ReminderReducer'
+import { Helmet } from 'react-helmet'
 
 export const ReminderContext = createContext()
 
@@ -15,6 +16,10 @@ const ReminderContextProvider = (props) => {
 
   return (
     <ReminderContext.Provider value={{ reminders, dispatch }}>
+      <Helmet>
+        <meta charSet='utf-8' />
+        <title>Calendar Reminder</title>
+      </Helmet>
       {props.children}
     </ReminderContext.Provider>
   )
