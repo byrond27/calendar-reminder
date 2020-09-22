@@ -56,7 +56,7 @@ function Reminder(props) {
       className='d-flex flex-wrap p-1'
       style={{ background: props.reminder.color }}>
       <div className='d-flex w-100 '>
-        <div className='text-truncate pl-2'>
+        <div className='text-truncate pl-2 user-select-none'>
           {props.reminder.time} {props.reminder.name}
         </div>
       </div>
@@ -75,14 +75,14 @@ function Reminder(props) {
         isOpen={popoverOpen}
         target={`id-${props.reminder.id}`}
         toggle={toggle}>
-        <PopoverHeader className='d-flex align-items-center'>
+        <PopoverHeader className='d-flex align-items-center user-select-none'>
           <CircleColor style={{ background: props.reminder.color }} />
           <div className='mr-auto w-75'>{props.reminder.name}</div>
           <div onClick={() => setPopoverOpen(false)}>
-            <i className='fas fa-times text-dark' />
+            <i className='fas fa-times text-dark' role='button' />
           </div>
         </PopoverHeader>
-        <PopoverBody>
+        <PopoverBody className='user-select-none'>
           <div className='d-flex w-100 align-items-center'>
             <div className='mr-auto text-capitalize'>{props.reminder.city}</div>
             <div className='text-capitalize'>{props.reminder.weather}</div>
