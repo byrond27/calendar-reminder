@@ -1,9 +1,9 @@
 import React from 'react'
+import moment from 'moment'
+import styled from 'styled-components'
 import Header from '../Header'
 import HeaderDays from '../HeaderDays'
 import { Day } from '../Day'
-import moment from 'moment'
-import styled from 'styled-components'
 import { Row, Col } from 'reactstrap'
 
 const DaysWrapper = styled.section`

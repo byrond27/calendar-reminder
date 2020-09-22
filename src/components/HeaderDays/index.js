@@ -1,7 +1,7 @@
 import React from 'react'
+import moment from 'moment'
 import styled from 'styled-components'
 import { Row, Col } from 'reactstrap'
-import moment from 'moment'
 
 const HeaderCalendar = styled.div`
   font-weight: bold;

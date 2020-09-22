@@ -6,7 +6,7 @@ import moment from 'moment'
 import Reminder from '../Reminder'
 import ReminderForm from '../Form'
 import Modal from 'react-modal'
-import { ReminderContext } from '../../ReminderContext'
+import { ReminderContext } from '../../contexts/ReminderContext'
 
 function createSpaceFirstDay() {
   let styles = ''
@@ -72,14 +72,6 @@ const customStyles = {
 export function Day(props) {
   const [modalIsOpen, setIsOpen] = React.useState(false)
 
-  function openModal() {
-    setIsOpen(true)
-  }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-  }
-
   function closeModal() {
     setIsOpen(false)
   }
@@ -92,32 +84,33 @@ export function Day(props) {
   let currentDay =
     moment().format('YYYY-MM-DD') === props.date ? 'current-day' : ''
 
-  let WeekendDay =
+  let weekendDay =
     moment(props.date).format('dddd') === 'Sunday' ||
     moment(props.date).format('dddd') === 'Saturday'
       ? 'weekend-day'
       : 'weekday'
 
-  styleDays.push(firstDayMonth, currentDay, WeekendDay)
+  styleDays.push(firstDayMonth, currentDay, weekendDay)
 
   const { reminders, dispatch } = useContext(ReminderContext)
 
-  const reminderByDay = reminders.filter(
-    (reminder) => reminder.date === props.date
+  const RemindersOrderByTime = _sortBy(
+    reminders.filter((reminder) => reminder.date === props.date),
+    'time'
   )
-
-  const orderReminderByTime = _sortBy(reminderByDay, 'time')
 
   return (
     <DayWrapper className={styleDays.toString().replaceAll(',', ' ')}>
       <div className='d-flex header-day'>
         <div className='flex-grow-1 align-self-center day-number'>
           {props.day}
-          {reminderByDay.length > 0 ? (
-            <span className='reminder-number'>{reminderByDay.length}</span>
+          {RemindersOrderByTime.length > 0 ? (
+            <span className='reminder-number'>
+              {RemindersOrderByTime.length}
+            </span>
           ) : null}
         </div>
-        {reminderByDay.length > 0 ? (
+        {RemindersOrderByTime.length > 0 ? (
           <Button
             outline
             color='danger'
@@ -132,12 +125,18 @@ export function Day(props) {
             <i className='fas fa-trash' />
           </Button>
         ) : null}
-        <Button outline color='primary' size='sm' onClick={openModal}>
+        <Button
+          outline
+          color='primary'
+          size='sm'
+          onClick={() => {
+            setIsOpen(true)
+          }}>
           <i className='fas fa-plus' />
         </Button>
       </div>
-      {orderReminderByTime.length > 0 ? (
-        orderReminderByTime.map((reminder) => (
+      {RemindersOrderByTime.length > 0 ? (
+        RemindersOrderByTime.map((reminder) => (
           <Reminder key={reminder.id} reminder={reminder} />
         ))
       ) : (
@@ -145,7 +144,6 @@ export function Day(props) {
       )}
       <Modal
         isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel='Example Modal'>

@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4'
 
-export const calendarReducer = (state, action) => {
+export const reminderReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_REMINDER':
       return [

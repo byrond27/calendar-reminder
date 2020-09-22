@@ -1,10 +1,10 @@
 import React, { createContext, useReducer, useEffect } from 'react'
-import { calendarReducer } from '../reducers/calendarReducer'
+import { reminderReducer } from '../../reducers/ReminderReducer'
 
 export const ReminderContext = createContext()
 
 const ReminderContextProvider = (props) => {
-  const [reminders, dispatch] = useReducer(calendarReducer, [], () => {
+  const [reminders, dispatch] = useReducer(reminderReducer, [], () => {
     const localState = localStorage.getItem('reminders')
     return localState ? JSON.parse(localState) : []
   })

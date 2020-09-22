@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { ReminderContext } from '../../ReminderContext'
+import { ReminderContext } from '../../contexts/ReminderContext'
 import styled from 'styled-components'
 import Modal from 'react-modal'
 import ReminderForm from '../Form'
@@ -33,6 +33,7 @@ const customStyles = {
     width: '350px',
   },
 }
+
 function Reminder(props) {
   const [popoverOpen, setPopoverOpen] = useState(false)
   const [modalIsOpen, setIsOpen] = React.useState(false)
@@ -44,6 +45,7 @@ function Reminder(props) {
   function closeModal() {
     setIsOpen(false)
   }
+
   const toggle = () => setPopoverOpen(!popoverOpen)
 
   const { dispatch } = useContext(ReminderContext)

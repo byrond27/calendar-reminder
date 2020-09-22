@@ -1,8 +1,7 @@
 import React from 'react'
-import './App.css'
-import ReminderContextProvider from './ReminderContext'
+import ReminderContextProvider from './contexts/ReminderContext'
 import { Route, Switch, HashRouter } from 'react-router-dom'
-import { CalendarHome } from './layout/CalendarHome'
+import { CalendarHome } from './components/layout/CalendarHome'
 import { Month } from './components/Month'
 import { createGlobalStyle } from 'styled-components'
 
