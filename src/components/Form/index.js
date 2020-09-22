@@ -30,6 +30,9 @@ const FromWrapper = styled(Form)`
     input {
       border: 0;
       width: 100%;
+      color: black;
+      font-size: 15px;
+      padding-left: 0;
     }
     .rc-time-picker-clear {
       top: 7px;
@@ -40,9 +43,7 @@ const FromWrapper = styled(Form)`
 const ReminderForm = (props) => {
   const { dispatch } = useContext(ReminderContext)
   const [name, setName] = useState('')
-  const [time, setTime] = useState(
-    moment().hour(0).minute(0).format('HH:mm:ss')
-  )
+  const [time, setTime] = useState(moment().hour(0).minute(0).format('HH:mm'))
   const [city, setCity] = useState('')
   const [color, setColor] = useState('#b3a2a2')
   const [date, setDate] = useState(props.currentDayReminder)
@@ -116,11 +117,11 @@ const ReminderForm = (props) => {
   }
 
   const onChangeTime = (time) => {
-    setTime(time.format('HH:mm:ss'))
+    setTime(time.format('HH:mm'))
   }
 
   const timePicker = props.editReminder
-    ? moment(props.editReminder.time, 'HH:mm:ss')
+    ? moment(props.editReminder.time, 'HH:mm')
     : moment().hour(0).minute(0)
 
   const handleSetColor = (colorPiker) => {
@@ -152,11 +153,11 @@ const ReminderForm = (props) => {
       <FormGroup>
         <Label for='time'>Time</Label>
         <TimePicker
-          showSecond={true}
           defaultValue={timePicker}
-          format='HH:mm:ss'
+          format='HH:mm'
           use24Hours
           inputReadOnly
+          showSecond={false}
           onChange={onChangeTime}
         />
       </FormGroup>

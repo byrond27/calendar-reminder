@@ -3,7 +3,7 @@ import { ReminderContext } from '../../ReminderContext'
 import styled from 'styled-components'
 import Modal from 'react-modal'
 import ReminderForm from '../Form'
-import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap'
+import { Popover, PopoverHeader, PopoverBody } from 'reactstrap'
 
 const OptionButton = styled.div`
   cursor: pointer;
@@ -13,6 +13,8 @@ const ReminderWrapper = styled.div`
   position: relative;
   font-size: 12px;
   cursor: pointer;
+  margin: 2px;
+  border-radius: 12px;
 `
 const CircleColor = styled.div`
   width: 15px;
@@ -32,15 +34,16 @@ const customStyles = {
   },
 }
 function Reminder(props) {
+  const [popoverOpen, setPopoverOpen] = useState(false)
   const [modalIsOpen, setIsOpen] = React.useState(false)
   function openModal() {
+    setPopoverOpen(false)
     setIsOpen(true)
   }
 
   function closeModal() {
     setIsOpen(false)
   }
-  const [popoverOpen, setPopoverOpen] = useState(false)
   const toggle = () => setPopoverOpen(!popoverOpen)
 
   const { dispatch } = useContext(ReminderContext)
@@ -51,10 +54,9 @@ function Reminder(props) {
       className='d-flex flex-wrap p-1'
       style={{ background: props.reminder.color }}>
       <div className='d-flex w-100 '>
-        <div className='text-truncate'>{props.reminder.name}</div>
-      </div>
-      <div className='d-flex w-100 align-items-center'>
-        <div className='mr-auto'>{props.reminder.time}</div>
+        <div className='text-truncate pl-2'>
+          {props.reminder.time} {props.reminder.name}
+        </div>
       </div>
       <Modal
         isOpen={modalIsOpen}
@@ -82,10 +84,10 @@ function Reminder(props) {
         <PopoverBody>
           <div className='d-flex w-100 align-items-center'>
             <div className='mr-auto text-capitalize'>{props.reminder.city}</div>
-            <div>{props.reminder.weather}</div>
+            <div className='text-capitalize'>{props.reminder.weather}</div>
           </div>
           <div className='d-flex align-items-center'>
-            <div className='mr-auto text-capitalize'>{props.reminder.time}</div>
+            <div className='mr-auto'>{props.reminder.time}</div>
             <OptionButton onClick={openModal}>
               <i className='fas fa-edit text-info pr-1' />
             </OptionButton>
