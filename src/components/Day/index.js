@@ -145,8 +145,7 @@ export function Day(props) {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel='Example Modal'>
+        style={customStyles}>
         <ReminderForm
           currentDayReminder={props.date}
           closeModalClick={closeModal}
