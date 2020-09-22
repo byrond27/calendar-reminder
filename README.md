@@ -12,6 +12,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Env
+
+- Add in .env.development key `REACT_APP_OPEN_WEATHER_API_KEY`
+
 ## Run Project with Docker
 
 - make build
