@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: react-app
+    stdin_open: true
+    container_name: react-app
+    command: npm start
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000

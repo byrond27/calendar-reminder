@@ -1,4 +1,30 @@
+# Calendar Reminder
+
+![CI - Master](https://github.com/byrond27/calendar-reminder/workflows/CI/badge.svg) ![CI - Develop](https://github.com/byrond27/calendar-reminder/workflows/CI/badge.svg?branch=develop)
+
+## Requirements
+
+### Install
+
+- Makefile [link](https://www.gnu.org/software/make/manual/make.html)
+- Docker [link](https://www.docker.com/)
+- Docker-compose [link](https://docs.docker.com/compose/install/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Run Project with Docker
+
+- make build
+- make run
+
+### or
+
+## Run Project without Docker
+
+Install nodeJs
+
+- npm install
+- npm start
 
 ## Available Scripts
 
